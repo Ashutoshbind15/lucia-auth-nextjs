@@ -1,16 +1,20 @@
 import { lucia } from "@/lib/auth";
-import { validateRequest } from "@/lib/auth/validator";
+import { isVerifiedEmail, validateRequest } from "@/lib/auth/validator";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function Page() {
-  const { user } = await validateRequest();
-  if (!user) {
+  const isUserAndEmailVerified = await isVerifiedEmail();
+
+  if (!isUserAndEmailVerified) {
     return redirect("/auth/login");
   }
+
+  const { user } = await validateRequest();
+
   return (
     <>
-      <h1>Welcome, {user.username}</h1>
+      <h1>Welcome, {user.email}</h1>
       <form action={logout}>
         <button>Sign out</button>
       </form>

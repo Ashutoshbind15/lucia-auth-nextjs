@@ -1,6 +1,10 @@
+import "server-only";
+
 import { cookies } from "next/headers";
 import { cache } from "react";
 import { lucia } from ".";
+import { User } from "@/models/User";
+import { connectDB } from "../db";
 
 export const validateRequest = cache(async () => {
   const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
@@ -33,3 +37,21 @@ export const validateRequest = cache(async () => {
   } catch {}
   return result;
 });
+
+export const isVerifiedEmail = async () => {
+  const { user } = await validateRequest();
+
+  if (!user) return false;
+
+  await connectDB();
+
+  const dbuser = await User.findOne({
+    email: user.email,
+  });
+
+  if (!dbuser?.emailVerified) {
+    return false;
+  }
+
+  return true;
+};

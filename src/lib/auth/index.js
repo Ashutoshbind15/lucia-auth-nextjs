@@ -9,7 +9,7 @@ export const lucia = new Lucia(adapter, {
   },
   getUserAttributes: (attr) => {
     return {
-      username: attr.username,
+      email: attr.email,
     };
   },
 });

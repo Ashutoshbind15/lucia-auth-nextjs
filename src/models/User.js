@@ -12,9 +12,15 @@ export const User =
         },
         username: {
           type: String,
-          required: true,
         },
         password_hash: {
+          type: String,
+        },
+        emailVerified: {
+          type: Boolean,
+          default: false,
+        },
+        email: {
           type: String,
         },
       },
