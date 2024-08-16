@@ -32,6 +32,10 @@ const DashboardPage = async () => {
       <div>
         <a href="/auth/providers/github">Link Github account</a>
       </div>
+
+      <div>
+        <a href="/auth/providers/linkedin">Link linkedIn account</a>
+      </div>
     </>
   );
 };
