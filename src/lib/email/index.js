@@ -10,7 +10,7 @@ export const mailSender = async (mailtext, mailsubject, mailto) => {
     from: `AuthReplier <${process.env.EMAIL_FROM}>`,
     to: mailto,
     subject: mailsubject,
-    react: EmailTemplate({ firstName: mailtext }),
+    react: EmailTemplate({ code: mailtext, email: mailto }),
   };
 
   try {

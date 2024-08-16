@@ -68,17 +68,17 @@ async function emaillogin(formData) {
 
   await connectDB();
 
-  const user = await User.findOne({
+  const dbuser = await User.findOne({
     email,
   });
 
-  if (!user) {
+  if (!dbuser) {
     return {
       error: "User not found",
     };
   }
 
-  const validPassword = await verify(user.password_hash, password, {
+  const validPassword = await verify(dbuser.password_hash, password, {
     memoryCost: 19456,
     timeCost: 2,
     outputLen: 32,
@@ -90,7 +90,7 @@ async function emaillogin(formData) {
     };
   }
 
-  const session = await lucia.createSession(user.id, {});
+  const session = await lucia.createSession(dbuser._id, {});
   const sessionCookie = lucia.createSessionCookie(session.id);
   cookies().set(
     sessionCookie.name,
